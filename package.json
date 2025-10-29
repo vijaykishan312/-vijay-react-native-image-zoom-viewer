@@ -1,7 +1,27 @@
 {
-  "name": "@vijay/react-native-image-zoom-viewer",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "@vijaykishan312/react-native-image-zoom-viewer",
+  "version": "1.0.1",
+  "description": "A high-performance React Native component for viewing images with native zoom capabilities",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vijaykishan312/react-native-image-zoom-viewer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vijaykishan312/react-native-image-zoom-viewer/issues"
+  },
+  "homepage": "https://github.com/vijaykishan312/react-native-image-zoom-viewer#readme",
+  "keywords": [
+    "react-native",
+    "image",
+    "zoom",
+    "viewer",
+    "pinch-to-zoom",
+    "image-viewer",
+    "gallery"
+  ],
+  "author": "Vijay Kishan",
+  "license": "MIT",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
@@ -9,11 +29,16 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "~54.0.20",
-    "expo-status-bar": "~3.0.8",
-    "react": "19.1.0",
-    "react-native": "0.81.5",
-    "react-native-gesture-handler": "~2.12.0"
+    "react": ">=16.8.0",
+    "react-native": ">=0.60.0"
   },
-  "private": true
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-native": ">=0.60.0"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

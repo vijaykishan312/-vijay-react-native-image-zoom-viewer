@@ -1,115 +1,109 @@
 # React Native Image Zoom Viewer
 
-🖼️ A beautiful, high-performance React Native component for viewing images with native zoom capabilities. This component provides a premium user experience with smooth animations, blurred backgrounds, and native implementation for optimal performance.
+A powerful, high-performance React Native component for viewing images with native zoom capabilities. This component provides smooth pinch-to-zoom, double tap gestures, and native implementation for optimal performance.
 
-![Demo](demo.gif)
+## Features
 
-## ✨ Features
-
-- 🚀 Native zoom implementation for optimal performance
-- 🎯 Smooth pinch-to-zoom and pan gestures
-- 🌟 Beautiful blur effects and animations
-- 🎨 Customizable header and footer
+- ✨ Native zoom implementation for optimal performance
+- 🔍 Smooth pinch-to-zoom and pan gestures
+- 👆 Double-tap to zoom functionality
 - 🖼️ Support for both local and remote images
-- 📱 Double-tap to zoom
-- 💫 Loading indicators and fade animations
-- 🌓 Dark mode support
+- 📱 Fully responsive design
+- 🎨 Customizable header and footer
+- ⚡️ Fast image loading with caching
+- 💫 Loading indicators
 - 📤 Built-in sharing capabilities
 - 🎭 Custom header and footer components
-- 🎟️ Image gallery support
-- ⚡️ Optimized image loading and caching
+- � Swipe to dismiss
+- 🔄 Multiple image support with swipe navigation
 
-## 📦 Installation
+## Installation
 
 ```bash
 # Using npm
-npm install react-native-image-zoom-viewer @react-native-community/blur
+npm install @vijaykishan312/react-native-image-zoom-viewer
 
 # Using yarn
-yarn add react-native-image-zoom-viewer @react-native-community/blur
+yarn add @vijaykishan312/react-native-image-zoom-viewer
 ```
 
-### iOS Setup
+## Usage
 
-1. Navigate to the iOS folder and install pods:
+```jsx
+import React, { useState } from "react";
+import { View } from "react-native";
+import ImageZoomViewer from "@vijaykishan312/react-native-image-zoom-viewer";
 
-```bash
-cd ios && pod install && cd ..
-```
+const App = () => {
+  const [visible, setVisible] = useState(false);
 
-### Android Setup
-
-No additional setup required for Android.
-
-## 🛠️ Requirements
-
-- React Native >= 0.63.0
-- iOS >= 11.0
-- Android >= API 21
-
-## 📖 Usage
-
-### Basic Usage
-
-```javascript
-import React, { useState } from 'react';
-import { ImageZoomViewer } from 'react-native-image-zoom-viewer';
-
-const MyComponent = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  
-  return (
-    <ImageZoomViewer
-      visible={isVisible}
-      onRequestClose={() => setIsVisible(false)}
-      imageSource={{ uri: 'https://example.com/image.jpg' }}
-      title="My Image"
-    />
-  );
-};
-```
-
-### Advanced Usage with Custom Components
-
-```javascript
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, Share } from 'react-native';
-import { ImageZoomViewer } from 'react-native-image-zoom-viewer';
-
-const MyGalleryImage = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  
-  const renderHeader = (onClose) => (
-    <View style={styles.header}>
-      <Text style={styles.title}>Beautiful Landscape</Text>
-      <TouchableOpacity onPress={onClose}>
-        <Text style={styles.closeButton}>×</Text>
-      </TouchableOpacity>
-    </View>
-  );
-
-  const renderFooter = () => (
-    <TouchableOpacity 
-      style={styles.shareButton}
-      onPress={() => Share.share({ url: imageSource.uri })}
-    >
-      <Text style={styles.shareText}>Share</Text>
-    </TouchableOpacity>
-  );
+  const images = [
+    {
+      url: "https://example.com/image1.jpg",
+      title: "Beautiful Landscape",
+      description: "A stunning view of mountains",
+    },
+  ];
 
   return (
     <ImageZoomViewer
-      visible={isVisible}
-      onRequestClose={() => setIsVisible(false)}
-      imageSource={{ uri: 'https://example.com/image.jpg' }}
-      renderHeader={renderHeader}
-      renderFooter={renderFooter}
-      backgroundColor="rgba(0, 0, 0, 0.9)"
-      blurType="dark"
+      visible={visible}
+      imageUrls={images}
+      onSwipeDown={() => setVisible(false)}
+      enableSwipeDown={true}
+      backgroundColor="rgba(0,0,0,0.9)"
+      renderHeader={() => (
+        <View style={styles.header}>
+          <Text style={styles.title}>{images[0].title}</Text>
+        </View>
+      )}
+      renderFooter={() => (
+        <View style={styles.footer}>
+          <Text style={styles.description}>{images[0].description}</Text>
+        </View>
+      )}
     />
   );
 };
+
+export default App;
 ```
+
+## Props
+
+| Prop                  | Type     | Description                              |
+| --------------------- | -------- | ---------------------------------------- |
+| `visible`             | boolean  | Controls the visibility of the viewer    |
+| `imageUrls`           | Array    | Array of image objects with url property |
+| `index`               | number   | Initial image index to display           |
+| `enableSwipeDown`     | boolean  | Enable swipe down to close               |
+| `onSwipeDown`         | function | Called when swiped down                  |
+| `backgroundColor`     | string   | Background color of the viewer           |
+| `minScale`            | number   | Minimum zoom scale (default: 0.8)        |
+| `maxScale`            | number   | Maximum zoom scale (default: 3)          |
+| `doubleClickInterval` | number   | Interval for double tap (default: 300ms) |
+| `renderHeader`        | function | Custom header component                  |
+| `renderFooter`        | function | Custom footer component                  |
+| `onMove`              | function | Called when changing images              |
+
+## Example
+
+Check out our [example app](https://github.com/vijaykishan312/react-native-image-zoom-viewer/tree/main/example) for a complete implementation showing all features.
+
+## Demo
+
+![Demo](https://raw.githubusercontent.com/vijaykishan312/react-native-image-zoom-viewer/main/example/assets/demo.gif)
+
+## Contributing
+
+Pull requests are welcome! Feel free to contribute to make this component even better.
+
+## License
+
+MIT © [Vijay Kishan](https://github.com/vijaykishan312)
+};
+
+````
 
 ### Gallery Implementation
 
@@ -119,30 +113,30 @@ Check out the full gallery implementation in the [example folder](./example/Imag
 
 ### Basic Props
 
-| Prop | Type | Required | Description |
-|------|------|----------|-------------|
-| `visible` | boolean | Yes | Controls the visibility of the modal |
-| `onRequestClose` | function | Yes | Callback when modal is closing |
-| `imageSource` | object | Yes | Image source (remote URL or local resource) |
-| `title` | string | No | Title displayed in the header |
+| Prop             | Type     | Required | Description                                 |
+| ---------------- | -------- | -------- | ------------------------------------------- |
+| `visible`        | boolean  | Yes      | Controls the visibility of the modal        |
+| `onRequestClose` | function | Yes      | Callback when modal is closing              |
+| `imageSource`    | object   | Yes      | Image source (remote URL or local resource) |
+| `title`          | string   | No       | Title displayed in the header               |
 
 ### Customization Props
 
-| Prop | Type | Required | Description |
-|------|------|----------|-------------|
-| `renderHeader` | function | No | Custom header component renderer |
-| `renderFooter` | function | No | Custom footer component renderer |
-| `backgroundColor` | string | No | Background color of the modal (default: 'rgba(0, 0, 0, 0.9)') |
-| `blurType` | string | No | Blur effect type ('dark', 'light', 'extraDark') |
+| Prop              | Type     | Required | Description                                                   |
+| ----------------- | -------- | -------- | ------------------------------------------------------------- |
+| `renderHeader`    | function | No       | Custom header component renderer                              |
+| `renderFooter`    | function | No       | Custom footer component renderer                              |
+| `backgroundColor` | string   | No       | Background color of the modal (default: 'rgba(0, 0, 0, 0.9)') |
+| `blurType`        | string   | No       | Blur effect type ('dark', 'light', 'extraDark')               |
 
 ### Zoom Control Props
 
-| Prop | Type | Required | Description |
-|------|------|----------|-------------|
-| `minScale` | number | No | Minimum zoom scale (default: 1.0) |
-| `maxScale` | number | No | Maximum zoom scale (default: 3.0) |
-| `initialScale` | number | No | Initial zoom scale (default: 1.0) |
-| `doubleTapScale` | number | No | Scale applied on double tap (default: 2.0) |
+| Prop             | Type   | Required | Description                                |
+| ---------------- | ------ | -------- | ------------------------------------------ |
+| `minScale`       | number | No       | Minimum zoom scale (default: 1.0)          |
+| `maxScale`       | number | No       | Maximum zoom scale (default: 3.0)          |
+| `initialScale`   | number | No       | Initial zoom scale (default: 1.0)          |
+| `doubleTapScale` | number | No       | Scale applied on double tap (default: 2.0) |
 
 ## 🎨 Styling
 
@@ -159,7 +153,7 @@ const renderHeader = (onClose) => (
     </TouchableOpacity>
   </View>
 );
-```
+````
 
 ### Custom Animation
 

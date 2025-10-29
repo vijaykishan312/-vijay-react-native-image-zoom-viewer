@@ -8,49 +8,33 @@ import {
   Text,
   Dimensions,
   Share,
-  Platform,
   StatusBar,
 } from 'react-native';
-import ImageZoomViewer from './src/ImageZoomViewer';
+import ImageZoomViewer from '../src/ImageZoomViewer';
 
 const { width } = Dimensions.get('window');
 const SPACING = 10;
 const THUMB_SIZE = (width - SPACING * 4) / 3;
 
-const DEMO_IMAGES = [
+const images = [
   {
     id: '1',
-    title: 'Mountain Landscape',
-    uri: 'https://source.unsplash.com/featured/?mountain',
+    title: 'Mountain View',
+    uri: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606',
   },
   {
     id: '2',
-    title: 'Ocean View',
-    uri: 'https://source.unsplash.com/featured/?ocean',
+    title: 'Ocean Sunset',
+    uri: 'https://images.unsplash.com/photo-1414609245224-afa02bfb3fda',
   },
   {
     id: '3',
     title: 'Forest Path',
-    uri: 'https://source.unsplash.com/featured/?forest',
-  },
-  {
-    id: '4',
-    title: 'City Lights',
-    uri: 'https://source.unsplash.com/featured/?city',
-  },
-  {
-    id: '5',
-    title: 'Desert Sunset',
-    uri: 'https://source.unsplash.com/featured/?desert',
-  },
-  {
-    id: '6',
-    title: 'Wildlife',
-    uri: 'https://source.unsplash.com/featured/?wildlife',
+    uri: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e',
   },
 ];
 
-const App = () => {
+const ImageGalleryExample = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -62,7 +46,7 @@ const App = () => {
           message: selectedImage.title,
         });
       } catch (error) {
-        console.log('Error sharing:', error.message);
+        console.log(error.message);
       }
     }
   };
@@ -70,41 +54,27 @@ const App = () => {
   const renderHeader = (onClose) => (
     <View style={styles.header}>
       <Text style={styles.headerTitle}>{selectedImage?.title}</Text>
-      <TouchableOpacity 
-        onPress={onClose}
-        style={styles.closeButton}
-        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-      >
-        <Text style={styles.closeButtonText}>×</Text>
+      <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+        <Text style={styles.closeText}>×</Text>
       </TouchableOpacity>
     </View>
   );
 
   const renderFooter = () => (
-    <View style={styles.footer}>
-      <TouchableOpacity 
-        onPress={handleShare}
-        style={styles.shareButton}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.shareButtonText}>Share Image</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity onPress={handleShare} style={styles.shareButton}>
+      <Text style={styles.shareText}>Share</Text>
+    </TouchableOpacity>
   );
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      
       <Text style={styles.title}>Image Gallery</Text>
-      <Text style={styles.subtitle}>Tap any image to zoom</Text>
-
       <View style={styles.gallery}>
-        {DEMO_IMAGES.map((image) => (
+        {images.map((image) => (
           <TouchableOpacity
             key={image.id}
-            style={styles.imageContainer}
-            activeOpacity={0.7}
+            style={styles.thumbnailContainer}
             onPress={() => {
               setSelectedImage(image);
               setIsVisible(true);
@@ -115,7 +85,7 @@ const App = () => {
               style={styles.thumbnail}
               resizeMode="cover"
             />
-            <View style={styles.imageTitleContainer}>
+            <View style={styles.titleContainer}>
               <Text style={styles.imageTitle} numberOfLines={1}>
                 {image.title}
               </Text>
@@ -132,9 +102,6 @@ const App = () => {
         renderHeader={renderHeader}
         renderFooter={renderFooter}
         backgroundColor="rgba(0, 0, 0, 0.9)"
-        minScale={0.8}
-        maxScale={4}
-        enableDoubleTapZoom={true}
       />
     </SafeAreaView>
   );
@@ -143,53 +110,38 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#ffffff',
   },
   title: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#000000',
-    marginTop: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight + 20,
+    marginVertical: 20,
     marginHorizontal: 15,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666666',
-    marginHorizontal: 15,
-    marginTop: 5,
-    marginBottom: 20,
   },
   gallery: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     padding: SPACING,
   },
-  imageContainer: {
+  thumbnailContainer: {
     width: THUMB_SIZE,
     height: THUMB_SIZE,
-    marginHorizontal: SPACING / 2,
-    marginBottom: SPACING,
+    margin: SPACING / 2,
     borderRadius: 12,
     overflow: 'hidden',
-    backgroundColor: '#F0F0F0',
-    elevation: 2,
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    backgroundColor: '#f0f0f0',
   },
   thumbnail: {
     width: '100%',
     height: '100%',
   },
-  imageTitleContainer: {
+  titleContainer: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 8,
   },
   imageTitle: {
     color: '#FFFFFF',
@@ -204,41 +156,35 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: '#FFFFFF',
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '600',
   },
   closeButton: {
-    width: 40,
-    height: 40,
+    width: 44,
+    height: 44,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 20,
+    borderRadius: 22,
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
-  closeButtonText: {
+  closeText: {
     color: '#FFFFFF',
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: '300',
     marginTop: -2,
   },
-  footer: {
-    padding: 20,
-    alignItems: 'center',
-  },
   shareButton: {
+    alignSelf: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
     backgroundColor: '#007AFF',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 25,
-    elevation: 3,
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
   },
-  shareButtonText: {
+  shareText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
 });
+
+export default ImageGalleryExample;
